@@ -2,9 +2,6 @@ from django.contrib import admin
 from .models import *
 
 
-
-
-
 @admin.register(Uuser)
 class UuserModelAdmin(admin.ModelAdmin):
     list_display = ['id', 'uname', 'uemail']
