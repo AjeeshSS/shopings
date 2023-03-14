@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/5ba53d1842.js" crossorigin="anonymous"></script>
+
+    <title>Sales Report</title>
+</head>
+<body>
+<div class="container text-center">
+    <div class="offset-sm-1 pt-5">
+
+        <div class="row text-center align-items-center justify-content-center">
+            <h4 class="pb-3">ShopingS.com</h4>
+            <tbody>
+                <tr>
+                    <td>Generated date:</td>
+                    <td>{{ now }}</td>
+                </tr></table>
+            <hr>
+        
+            <div class="row">
+            {% if start_date and end_date %}   
+                <div class="col-auto">Sales Report: From {{start_date}} To {{end_date}}</div>
+            {% else %}
+            <div class="col-auto">Total Sales Report</div>
+            {% endif %}
+            </div>
+            <br>
+            <br>
+            <hr>
+            
+               {% if orders %}
+                    <table>
+                        <thead>
+                            <tr>
+                                <th><h3>Sl.no</h3></th>
+                                <th><h3>Order id</h3></th>
+                                <th><h3>Customer</h3></th>
+                                <th><h3>Amount</h3></th>
+                                <th><h3>Product</h3></th>
+                                <th><h3>Order status</h3></th>
+                            </tr>
+                        </thead>
+                        <tr>
+                            <td colspan="6" style="border-bottom: 0.5px solid black;"></td>
+                        </tr>
+                        <tbody>     
+                            {% for d in orders %}
+                                <tr style="padding-top: 5px;">
+                                    <th>{{forloop.counter}}</th>
+                                    <th>{{ d.order_id }}</th>
+                                    <th>{{ d.customer.name }}</th>
+                                    <th>{{ d.Product.our_price }}</th>
+                                    <th>{{ d.Product.title }}</th>
+                                    <th>{{ d.status}}</th>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <table>
+                        <thead>
+                            <tr>
+                                <th><h3>Sl.no</h3></th>
+                                <th><h3>Order id</h3></th>
+                                <th><h3>Customer</h3></th>
+                                <th><h3>Amount</h3></th>
+                                <th><h3>Product</h3></th>
+                                <th><h3>Order status</h3></th>
+                            </tr>
+                        </thead>
+                        <tr>
+                            <td colspan="6" style="border-bottom: 0.5px solid black;"></td>
+                        </tr>
+                        <tbody>     
+                            <tr>
+                                <td colspan="6" style="text-align: center; font-size: 15px; padding-top: 25px;"><h5>No orders in these dates - {{start_date}} To {{end_date}}</h5></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                {% endif %}
+
+
+                
+            <hr>
+
+
+            <div class="container m-2" style="padding-top: 8px;">
+                <table class="table" id="example">
+                    <tbody>
+                        <tr>
+                            <td>Total number of orders:</td>
+                            <td>{{ total_orders }}</td> 
+                        </tr>
+                    
+                    <tr>
+                        <td>Total number of mobiles:</td>
+                        <td>{{ mobile_orders_count }}</td>
+                    </tr>
+                    <tr>
+                        <td>Total number of laptops:</td>
+                        <td>{{ lap_orders_count }}</td>
+                    </tr>
+                    <tr>
+                        <td>Total amount of products delivered:</td>
+                        <td>{{ delivered_orders }}</td>
+                    </tr>
+                    <tr>
+                        <td>Total amount of income:</td>
+                        <td>{{ total_amount_received }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+            integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+            integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+            crossorigin="anonymous"></script>
+
+</body>
+</html>

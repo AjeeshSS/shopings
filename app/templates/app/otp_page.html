@@ -1,0 +1,40 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}OTP{% endblock title %}
+{% block main-content %}
+<div class="container">
+    <div class="row my-3">
+
+        <h3 class="text-center">Otp page</h3>
+        <hr>
+        <div class="container">
+            <div class="p-2 m-5">
+                <div class="col-lg-4 mx-auto  border rounded p-3">
+                    <h5 class="alert-sm alert-light  text-center text-color">Received OTP? check your phone</h5>
+                    <form method="POST">
+                        {%csrf_token%}
+
+                        {%if error%}
+                        <div class="alert-sm alert-danger text-center text-color" role="alert">
+                            {{error}}
+                        </div>
+                        {%endif%}
+
+                        <!----email---->
+                        <div class="mb-3">
+                            <label for="" class="form-label">Enter otp</label>
+                            <input type="number" name="user_otp" id="" value=""
+                                   class="form-control form-control-sm" placeholder="OTP here">
+                        </div>
+                        <div class="form-group text-center">
+                            <!-- <input class="btn btn-info col-lg-3"  type="submit" value="submit"> -->
+                            <button class="btn btn-info col-lg-3" type="submit">Verify</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock main-content %}

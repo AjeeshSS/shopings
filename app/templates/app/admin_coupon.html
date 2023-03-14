@@ -1,0 +1,54 @@
+{%extends 'app/base_admin.html'%}
+
+{%block title%}Admin coupon{% endblock  %}
+
+{%block content%}
+<style>
+    .table .table_size {
+        font-size: 17px;
+    }
+</style>
+
+<div class="my-2 fw-bold fs-4 text-center">Manage coupon</div>
+<div class="mt-2 my-3 mx-3">
+    <a href="{% url 'add_new_coupon' %}" class="btn btn-success">Add new +</a>
+</div>
+<!-- Main -->
+<main class="py-6 bg-surface-secondary mx-5">
+    <div class="container-fluid me-auto">
+        <!-- Card stats -->
+        <table class="table table-hover table-responsive text-center" style="border: 1px solid black;">
+            <thead>
+            <tr>
+                <th class="table_size">sl no:</th>
+                <th class="table_size">code</th>
+                <th class="table_size">discount</th>
+                <th class="table_size">created date</th>                
+                <th class="table_size">active date</th>
+                <th class="table_size">expiry date</th>
+                <th class="table_size">active</th>
+                <th class="table_size">action</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for i in coupon %}
+            <tr>
+                <td class="table_size">{{forloop.counter}}</td>
+                <td class="table_size">{{i.code}}</td>
+                <td class="table_size">{{i.discount}}</td>
+                <td class="table_size">{{i.created_date}}</td>
+                <td class="table_size">{{i.active_date}}</td>
+                <td class="table_size">{{i.expiry_date}}</td>
+                <td class="table_size">{{i.active}}</td>
+                <td><a href="edit_coupon/{{i.id}}" class="btn btn-secondary"><i class="fa fa-pencil-square-o"></i></a>
+                    <a href="delete_coupon/{{i.id}}" class="btn btn-danger"><i class="fa fa-trash"></i></a>
+                </td>
+            </tr>
+            </tbody>
+            {%endfor%}
+        </table>
+
+
+    </div>
+</main>
+{% endblock  %}

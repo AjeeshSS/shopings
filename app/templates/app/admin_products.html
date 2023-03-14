@@ -1,0 +1,61 @@
+{% extends 'app/base_admin.html' %}
+
+{%block title%}Admin products{% endblock  %}
+
+{%block search%}
+<form class="d-flex me-auto mb-2 mb-lg-0" action="{% url 'admin_products' %}" method='GET'>
+    <input class="form-control me-2" type="search" name="search" placeholder="Search products" aria-label="Search">
+    <button class="btn btn-outline-success" type="submit">Search</button>
+</form>
+{% endblock search%}
+
+{%block content%}
+<style>
+    .table .table_size {
+        font-size: 17px;
+    }
+</style>
+
+<div class="my-2 fw-bold fs-4 text-center">Manage products</div>
+
+<div class="mt-2 my-3 mx-3">
+    <a href="{% url 'add_new_product' %}" class="btn btn-success">Add new +</a>
+</div>
+<!-- Main -->
+<main class="py-6 bg-surface-secondary mx-2">
+    <div class="container-fluid me-auto">
+        <!-- Card stats -->
+        <table class="table table-hover table-responsive text-center" style="border: 1px solid black;">
+            <thead>
+            <tr>
+                <th class="table_size">sl no:</th>
+                <th class="table_size">Name</th>
+                <th class="table_size">price</th>
+                <th class="table_size">category</th>
+                <th class="table_size">Brand</th>
+                <th class="table_size">image</th>
+                <th class="table_size">action</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for i in products %}
+            <tr>
+                <td class="table_size">{{forloop.counter}}</td>
+                <td class="table_size">{{i.title}}</td>
+                <td class="table_size">₹ {{i.our_price}}/-</td>
+                <td class="table_size">{{i.category}}</td>
+                <td class="table_size">{{i.brand}}</td>
+                <td><img class='img-thumbnail' src="{{i.Product_image.url}}" style="height: 70px; width:70px"></td>
+                <td><a href="edit_product/{{i.id}}" class="btn btn-secondary"><i class="fa fa-pencil-square-o"></i></a>
+                    <a href="delete_product/{{i.id}}" class="btn btn-danger"><i class="fa fa-trash"></i></a>
+                </td>
+            </tr>
+            </tbody>
+            {%endfor%}
+        </table>
+
+
+    </div>
+</main>
+
+{% endblock  %}

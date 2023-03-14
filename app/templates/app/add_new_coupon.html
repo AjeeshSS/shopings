@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <title>Add coupon</title>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+            padding: 50px;
+        }
+
+        .container {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 50px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-control {
+            border-radius: 5px;
+            border-color: #ddd;
+            box-shadow: none;
+        }
+
+        .form-control:focus {
+            border-color: #6c757d;
+            box-shadow: none;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+            border-color: #28a745;
+            color: #fff;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .btn-success:hover {
+            background-color: #218838;
+            border-color: #1e7e34;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container col-sm-6 mt-5">
+    <h3 class="text-center text-decoration-underline mb-5 mb-3">Add Coupon</h3>
+
+    <form action="" method="post" novalidate>
+        {% csrf_token %}
+    
+        {% for fm in fm %}
+            <div class="form-group mb-4">
+                {{fm.label_tag}}
+                {{fm}}
+                <small class="text-danger">{{fm.errors|striptags}}</small>
+            </div>
+        {% endfor %}
+        
+        <div class="text-center mt-3">
+            <input type="submit" class="btn btn-success" value="Save">
+        </div>
+    </form>
+    
+</div>
+</body>
+</html>

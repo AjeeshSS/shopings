@@ -1,0 +1,142 @@
+{% extends 'app/base_admin.html' %}
+
+{%block title%}Admin dashboard{% endblock  %}
+
+{%block content%}
+<style>
+    .date_size {
+        font-size: 25px;
+    }
+</style>
+
+<div class="my-2 fw-bold fs-4 text-center">Dashboard</div>
+<!-- chart -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+
+<div class="mx-4 my-4 mt-3">
+    <form  method="POST"  action="{% url 'sales_report'%}" >
+        {% csrf_token %}
+        <label for="start_date" class="date_size">Start Date : </label>
+        <input type="date" id="start_date" class="date " name="start_date"><br/>
+        <label for="end_date" class="date_size">End Date : </label>
+        <input type="date" id="end_date" class="date" name="end_date">
+        <br><br><button type="submit"  name ="generate"  value="PDF" class="btn btn-outline-danger"><i class="fas fa-file-export"></i> Sales Report</button>
+        <input type="submit" name="generate" value="Excel" class="btn btn-outline-success mx-2">
+
+    </form>
+</div>
+
+<div class="row">
+    <div class="container-fluid pt-3 px-4 mx-5 col-sm-5">
+        <div class="row g-4">
+            <div class="bg-light text-center rounded p-5">
+                <h6 class="mb-0">Total Number Of product Purchased per month</h6>
+                <div class="d-flex align-items-center justify-content-between mb-4">
+
+                    <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+                    <script>
+    {% comment %} const ctxs = document.getElementById('chart');
+    const labels={{months|safe}}
+    console.log(true)
+    new Chart(ctxs, {
+    type: 'doughnut',
+    data: {
+        labels: labels,
+        datasets: [{
+          label: 'totalorders',
+          data: {{total_ord}},
+      
+          borderColor:'black',
+          backgroundColor:['#c0db23','#d44255','#89db37','#311436','#279e15','#edc7ca','#c49c1a','#1aa2c4','#611ac4','#ebc583','#3d89d1','#e645ff'],
+          borderWidth: 1
+        }]
+      },
+
+    options: {
+        scales: {
+        y: {
+            beginAtZero: true
+        }
+        }
+    }
+    }); {% endcomment %}
+    
+                        var xValues = ["March", "April", "May", "June", "July"];
+                        var yValues = {{ total_ord|safe }};
+                        var barColors = ["red", "green","blue","orange","brown"];
+                        
+                        new Chart("myChart", {
+                        type: "bar",
+                        data: {
+                            labels: xValues,
+                            datasets: [{
+                            backgroundColor: barColors,
+                            data: yValues
+                            }]
+                        },
+                        options: {
+                            title: {
+                            display: true,
+                            text: "orders per month"
+                            },
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true,
+                                        precision: 0,
+                                        stepSize: 1,
+                                        callback: function(value) {
+                                            if (value % 1 === 0) {
+                                                return value;
+                                            }
+                                        }
+                                    }
+                                }]
+                            }
+                        }
+                        });
+
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid pt-3 px-4 mx-5 col-sm-5">
+        <div class="row g-4">
+            <div class="bg-light text-center rounded p-5">
+                <h6 class="mb-0">product Purchased per month</h6>
+                <div class="d-flex align-items-center justify-content-center mb-4">
+
+                    <canvas id="Chart" style="width:100%;max-width:300px"></canvas>
+                    <script>
+                        var xValues = ["mobiles", "laptops"];
+                        var yValues = [{{ mobile_orders_count }}, {{ lap_orders_count }}];
+                        var pieColors = ["red", "green","blue","orange","brown"];
+                        
+                        new Chart("Chart", {
+                        type: "pie",
+                        data: {
+                            labels: xValues,
+                            datasets: [{
+                            backgroundColor: pieColors,
+                            data: yValues
+                            }]
+                        },
+                        options: {
+                            title: {
+                            display: true,
+                            text: "total phones and laps ordered"
+                            }
+                        }
+                        });
+
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock  %}

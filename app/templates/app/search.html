@@ -1,0 +1,32 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}searched products{% endblock title %}
+
+
+{% block main-content %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-sm-2">
+
+        </div>
+        <div class="col-sm-8 ">
+            <div class='row '>
+                {%for product in prod%}
+                <div class='col-12 col-sm-6 col-md-4 text-center mb-4'>
+                    <a href="{% url 'product-detail' %}?prod_id={{product.id}}" class='btn'>
+                        <div class='item'>
+                            <img src='{{product.Product_image.url}}' alt='' height='200' width='230' class=''>
+                            <div class='fw-bold'>{{product.title}}</div>
+                            <div class='fw-bold'>{{product.brand}}</div>
+                            <div class='fw-bold'>Rs. {{product.our_price}}&nbsp;&nbsp;
+                                <small class='fw-light text-decoration-line-through'>{{product.real_price}}</small>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock main-content %}

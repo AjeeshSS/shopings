@@ -1,0 +1,50 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}User Login{% endblock title %}
+{% block main-content %}
+<div class="container">
+    <div class="row my-3">
+
+        <h3 class="text-center">User login</h3>
+        <hr>
+
+        <div class="container">
+            <div class="p-2 m-5">
+                <div class="col-lg-4 mx-auto  border rounded p-3">
+                    <h5 class="alert-sm alert-light  text-center">Already have an account? login</h5>
+                    <form method="POST">
+
+                        {%csrf_token%}
+
+                        {%if error%}
+                        <div class="alert-sm alert-danger text-center text-color" role="alert">
+                            {{error}}
+                        </div>
+                        {%endif%}
+
+                        <!----email---->
+                        <div class="mb-3">
+                            <label for="" class="form-label">Email</label>
+                            <input type="email" name="email" id="" value="{{values.email}}"
+                                   class="form-control form-control-sm"
+                                   placeholder="example@gmail.com">
+                        </div>
+                        <!----password---->
+                        <div class="mb-3">
+                            <label for="" class="form-label">password</label>
+                            <input type="password" name="password" id="" class="form-control form-control-sm"
+                                   placeholder="********">
+                            <a href="{% url 'forgot_password' %}">forgot account??</a>
+                        </div>
+                        <div class="form-group text-center">
+                            <input class="btn btn-info col-lg-3" type="submit" value="sign-in">
+                            <br>new user?<a href="{% url 'user_registration' %}">&nbsp;Register now</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock main-content %}

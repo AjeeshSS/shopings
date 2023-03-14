@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+          <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <title>Edit brand</title>
+    <!--image preview script-->
+    
+
+    <style>
+        .form-group {
+            margin-bottom: 2rem;
+        }
+        
+        .form-label {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-input {
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+        }
+        
+        .form-error {
+            color: red;
+        }
+        
+        .btn-add {
+            background-color: green;
+            border-color: green;
+            color: white;
+            font-weight: bold;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+        }
+        
+        #image-preview {
+            max-height: 150px;
+            margin-bottom: 1rem;
+            border-radius: 0.5rem;
+            border: 2px solid gray;
+            padding: 1rem;
+        }
+        
+        .form-input[type="file"] {
+            display: none;
+        }
+        
+        .btn-file {
+            background-color: #007bff;
+            border-color: #007bff;
+            color: white;
+            font-weight: bold;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container col-sm-4 mt-5">
+    <h3 class="text-center text-decoration-underline mb-5 mb-3"> Edit Brand </h3>
+    <form method='post' enctype="multipart/form-data">
+        {% csrf_token %}
+
+         <!-- add an image preview element -->
+         <div>
+            <img id="image-preview" src="{{ fm.instance.brand_image.url }}" alt="Image Preview"/>
+
+        </div>
+
+        {% for fm in fm %}
+            <div class="form group mb-3">
+                {{fm.label_tag}}{{fm}} <small class="text-danger">{{fm.errors|striptags}}</small>
+            </div>
+            {% endfor %}
+
+        <input type="submit" class="btn btn-success" value="Update">
+
+    </form>
+</div>
+
+
+<!-- add JavaScript to handle image preview -->
+<script>
+    $(document).ready(function() {
+        // listen for file input change event
+        $("#id_brand_image").change(function() {
+            // get the selected file
+            var file = this.files[0];
+            // create a new FileReader object
+            var reader = new FileReader();
+            // set up the reader to load the image data as a data URL
+            reader.readAsDataURL(file);
+            // define a function to run when the reader has finished loading
+            reader.onload = function(event) {
+                // set the image preview source to the data URL
+                $("#image-preview").attr("src", event.target.result);
+            };
+        });
+    });
+</script>
+</body>
+</html>

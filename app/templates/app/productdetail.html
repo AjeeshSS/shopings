@@ -1,0 +1,88 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}Product Details{% endblock title %}
+{% block main-content %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-sm-6 text-center align-self-center  thumb-image d-flex flex-nowrap">
+            <!--small multiple image-->
+
+            <div class="col-sm-3 d-flex align-items-start flex-column px-auto" style="height: 200px;">
+                {% for i in images %}
+                    {% if forloop.counter <= 3 %}
+                        <div class="mt-4 my-2 mx-2 p-2"><img src="{{i.images.url}}" style="height: 100px; width:100px" alt="" class="img-fluid img-thumbnail"></div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <!--main image-->
+            <div class="col-sm-8">
+                <img src="{{prod.Product_image.url}}" data-imagezoom="true" style="height: 450px; width:450px" alt=""
+                     class="img-fluid img-thumbnail">
+            </div>
+        </div>
+
+        <div class="col-sm-5 offset-sm-1 mt-4 ms-3">
+            <h2>{{prod.title}}</h2>
+            <hr>
+            <p>Description : {{prod.description}}</p> <br>
+            <p>Brand : {{prod.brand}}</p> <br>
+            <h4><span style="color: red;">Rs. {{prod.our_price}}</span>
+                &nbsp;&nbsp;<small class="fw-light text-decoration-line-through">{{prod.real_price}}</small>
+            </h4> <br>
+        
+            {% if request.session.user_id %}
+               
+                
+                    <form method="POST"  action="{% url 'add_to_cart'%}" class="d-inline">
+                        {% csrf_token %}
+
+                        <input type="hidden" name="prod_id" value="{{ prod.id }}">
+                        {% if color %}
+                        <label for="color">Select Color:</label>
+                        <select name="color" id="color">
+                            {% for c in color %}
+                                <option value={{ c.color }}>{{ c.color }}</option>
+                            {% endfor %}
+                        </select>
+                        {% endif %}
+                        {% if product_found %}
+                        <br><br><a href="{% url 'cart' %}" class="btn btn-warning shadow px-5 py-2 ms-4"> Already cart </a>
+                        {% else %}
+                        <br><br><button type="submit" name="button" value="add_to_cart" class="btn btn-primary shadow px-5 py-2">Add to cart</button>
+                        {% endif %}
+                        <button type="submit" name="button" value="buy_now" class="btn btn-danger shadow px-5 py-2 ms-4">Buy Now</button>
+                    </form>
+                
+            {% else %}
+
+                <form method="POST"  action="{% url 'add_to_cart'%}" class="d-inline">  
+                    {% csrf_token %}
+                    <input type="hidden" name="prod_id" value={{prod.id}}>
+                    <label for="color">Select Color:</label>
+                    <select name="color" id="color">
+                        {% for c in color %}
+                            <option value={{ c.color }}>{{ c.color }}</option>
+                        {% endfor %}
+                    </select>
+                    <br><br><button type="submit" name="button" value="add_to_cart" class="btn btn-primary shadow px-5 py-2">Add to cart</button>
+                    <button type="submit" name="button" value="buy_now" class="btn btn-danger shadow px-5 py-2 ms-4">Buy Now</button>
+                </form>
+
+            {% endif %}
+            
+            <h5 class="mt-5">Available Offers</h5>
+            <ul>
+                <li>Bank Offer 5% Unlimited Cashback on ShoppingS Axis Bank Credit</li>
+                <li>Special Price Get extra ₹3000 off (price inclusive of discount)</li>
+                <li>No cost EMI ₹1,667/month. Standard EMI also available</li>
+                <li>Partner Offer ₹2000 ShoppingS Gift Card on Every 1000th Transaction with a new Visa Debit/Credit
+                    Card
+                </li>
+            </ul>
+        </div>
+        
+        
+    </div>
+</div>
+{% endblock main-content %}

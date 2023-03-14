@@ -1,0 +1,49 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}Laps{% endblock title %}
+
+{% block search %}
+<form class="d-flex me-5">
+    <input class="form-control me-2" type="search" name="search" placeholder="Search dell/hp/acer" aria-label="Search">
+    <button class="btn btn-warning" type="submit"><i class='fa fa-search'></i></button>
+</form>
+{% endblock search %}
+
+{% block main-content %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-sm-3">
+            <div class='list-group'>
+                <a href='{% url 'lap' %}' class='list-group-item list-group-item-action' aria-curent='true'>All
+                Laptops</a>
+                <a href='{% url 'lapdata' 'hp' %}' class='list-group-item list-group-item-action'
+                aria-curent='true'>HP</a>
+                <a href='{% url 'lapdata' 'Dell' %}' class='list-group-item list-group-item-action'
+                aria-curent='true'>Dell</a>
+                <a href='{% url 'lapdata' 'below' %}' class='list-group-item list-group-item-action'
+                aria-curent='true'>Below 30,000</a>
+                <a href='{% url 'lapdata' 'above' %}' class='list-group-item list-group-item-action'
+                aria-curent='true'>Above 30,000</a>
+            </div>
+        </div>
+        <div class="col-sm-8 ">
+            <div class='row '>
+                {%for product in lap%}
+                <div class='col-12 col-sm-6 col-md-4 text-center mb-4'>
+                    <a href="{% url 'product-detail' %}?prod_id={{product.id}}" class='btn'>
+                        <div class='item'>
+                            <img src='{{product.Product_image.url}}' alt='' height='200' width='230' class=''>
+                            <div class='fw-bold'>{{product.title}}</div>
+                            <div class='fw-bold'>{{product.brand}}</div>
+                            <div class='fw-bold'>Rs. {{product.our_price}}&nbsp;&nbsp;
+                                <small class='fw-light text-decoration-line-through'>{{product.real_price}}</small>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock main-content %}

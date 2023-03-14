@@ -1,0 +1,71 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}User Registration{% endblock title %}
+{% block main-content %}
+<div class="container">
+    <div class="row my-3">
+
+        <h3 class="text-center">User Registration</h3>
+        <hr>
+
+        <div class="container">
+            <div class="p-2 m-2">
+                <div class="col-lg-5 mx-auto  border rounded p-3">
+                    <h3 class="alert alert-light border rounded text-center">Create an account</h3>
+                    <form method="POST">
+
+                        {%csrf_token%}
+
+                        {%if error%}
+                        <div class="alert-sm alert-danger text-center text-color" role="alert">
+                            {{error}}
+                        </div>
+                        {%endif%}
+
+                        <!----name---->
+                        <div class="mb-3">
+                            <label for="" class="form-label">Name</label>
+                            <input type="name" name="name" id="" value="{{values.name}}"
+                                   class="form-control form-control-sm"
+                                   placeholder="">
+                        </div>
+                        <!----number---->
+                        <div class="mb-3 id=" phonediv
+                        ">
+                        <label for="" class="form-label">Phone</label>
+                        <input type="number" name="phone" id="phone" value="{{values.phone}}"
+                               class="form-control form-control-sm" placeholder="10 digit">
+                </div>
+                <!----email---->
+                <div class="mb-3" id="email_div">
+                    <label for="" class="form-label">Email</label>
+                    <input required type="email" name="email" id="email" value="{{values.email}}"
+                           class="form-control form-control-sm"
+                           placeholder="example@gmail.com">
+                </div>
+                <!----password---->
+                <div class="mb-3">
+                    <label for="" class="form-label">password</label>
+                    <input type="password" name="password" id="" class="form-control form-control-sm"
+                           placeholder="********">
+                </div>
+                <!----conform password---->
+                <div class="mb-3">
+                    <label for="" class="form-label">conform password</label>
+                    <input type="password" name="conform_password" id=""
+                           class="form-control form-control-sm"
+                           placeholder="please conform">
+                </div>
+                <div class="form-group text-center" id="otp_div">
+                    <!-- <input class="btn btn-info" type="submit" value="Register"> -->
+                    <button class="btn btn-info" type="submit">Send OTP</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+</div>
+
+{% endblock main-content %}

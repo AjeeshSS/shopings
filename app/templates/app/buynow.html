@@ -1,0 +1,133 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}Buy now{% endblock title %}
+{% block main-content %}
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-sm-6">
+            <h4>Order Summary</h4>
+            <hr>
+
+            <div class="card mb-2">
+                <div class="card-body">
+                    <h5>Product: {{prod.title}}</h5>
+                    {% if color %}
+                    <p>Colour: {{color}}</p>
+                    {% endif %}
+                    <p>Quantity: 1</p>
+                    <p class="fw-bold">Price: {{prod.our_price}}</p>
+                </div>
+            </div>
+
+            <p class="fw-bold"> Total Cost + Rs. 70 = {{totalamount}}</p>
+            <small>Term and Condition: Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia, ullam saepe!
+                Iure optio repellat dolor velit, minus rem. Facilis cumque neque numquam laboriosam, accusantium
+                adipisci nisi nihil in et quis?</small>
+        </div>
+        <div class="col-sm-4 offset-sm-1">
+            <h4>Select Shipping Address OR</h4>
+            <a href="{% url 'buynow_add_address' %}?prod_id={{prod.id}}" class="btn btn-primary text-center">Add new address</a>
+            {% comment %} <a href="{% url 'addaddress' %}" class="btn btn-primary text-center">Add new address</a> {% endcomment %}
+            <hr>
+            
+            <form action="/buynowpaymentdone" id="myform">
+
+              <input type="hidden" name="prod_id" value="{{ prod.id }}">
+              <input type="hidden" name="color" value="{{ color }}">
+              <input type="hidden" name="totalamount" value="{{totalamount}}">
+
+              {% for ad in add %}
+              <div class="form-check mt-2 mb-3">
+                <input class="form-check-input" type="radio" name="custid" id="custadd{{forloop.counter}}" value="{{ad.id}}">
+                <label class="form-check-label fw-bold" for="custadd{{forloop.counter}}">
+                Address: {{forloop.counter}} </label>
+              </div>
+              <div class="card">
+                <div class="card-body">
+                <h5>{{ad.name}}</h5>
+                <h6>{{ad.housename}}</h6>
+                <p>{{ad.locality}}, {{ad.city}}, {{ad.state}} - {{ad.zipcode}}</p>
+                <p>ph : {{ad.phone}}</p>
+                </div>
+              </div> 
+              
+              {% endfor %}
+                  <script>
+                    const radioButtons = document.querySelectorAll('input[type="radio"][name="custid"]');
+                    const lastIndex = radioButtons.length - 1;
+                  
+                    // Check the last radio button
+                    radioButtons[lastIndex].checked = true;
+                  </script> 
+
+                  <div class="text-end text-center mt-3">
+                  <button type="submit" name="payment_method" value="cash on delivery" class="btn btn-info btn-block my-3 fw-bold" style="padding:11px 142px" > Cash on delivery </button> 
+        
+                  <div id="paypal-button-container"></div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>        
+        {% endblock main-content %}
+        {% block payment-gateway %} 
+        
+           {% comment %} this is for selecting the newly added address {% endcomment %}
+        <script>
+          const radioButtons = document.querySelectorAll('input[type="radio"][name="custid"]');
+          const lastIndex = radioButtons.length - 1;
+        
+          // Listen for changes to the radio button group
+          document.querySelector('input[type="radio"][name="custid"]').addEventListener('change', () => {
+            // Check if the last radio button is selected
+            if (radioButtons[lastIndex].checked) {
+              // Add a new radio button to the group
+              const newRadioButton = document.createElement('input');
+              newRadioButton.type = 'radio';
+              newRadioButton.name = 'custid';
+              newRadioButton.value = 'New Option';
+              document.body.appendChild(newRadioButton);
+        
+              // Automatically select the last radio button
+              radioButtons[lastIndex].checked = true;
+            }
+          });
+        </script> 
+
+
+        <script src="https://www.paypal.com/sdk/js?client-id=AWLRSbJ0M8zcM6vmjj7TfsbJXIxmJ8snpmD-PX92aYvyI3HblZKj6nfbtIfQnzNCBsleqp4l08-hJ6DT&currency=USD"></script>
+        <script>
+          paypal.Buttons({
+            // Sets up the transaction when a payment button is clicked
+            createOrder: (data, actions) => {
+              return actions.order.create({
+                purchase_units: [{
+                  amount: {
+                    value: '{{totalamount}}' // Can also reference a variable or function
+                  }
+                }]
+              });
+            },
+            // Finalize the transaction after payer approval
+            onApprove: (data, actions) => {
+              return actions.order.capture().then(function(orderData) {
+                // Successful capture! For dev/demo purposes:
+                console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+                const transaction = orderData.purchase_units[0].payments.captures[0];
+                alert(`Transaction ${transaction.status}: ${transaction.id}\n\nSee console for all available details`);
+        
+                document.getElementById("myform").submit();
+                // When ready to go live, remove the alert and show a success message within this page. For example:
+                // const element = document.getElementById('paypal-button-container');
+                // element.innerHTML = '<h3>Thank you for your payment!</h3>';
+                // Or go to another URL:  actions.redirect('thank_you.html');
+              });
+            }
+          }).render('#paypal-button-container'); 
+        </script>  
+        
+        {% endblock payment-gateway %}
+
+
+
+       

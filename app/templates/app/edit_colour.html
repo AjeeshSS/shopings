@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add new colour</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        h3 {
+            color: #007bff;
+        }
+        form {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            font-weight: bold;
+        }
+        .form-control {
+            border-radius: 5px;
+            box-shadow: none;
+            border-color: #ced4da;
+        }
+        .form-control:focus {
+            box-shadow: none;
+            border-color: #007bff;
+        }
+        .btn {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .btn:hover {
+            background-color: #0069d9;
+            border-color: #0062cc;
+        }
+        .btn:focus {
+            box-shadow: none;
+        }
+        .text-danger {
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container col-sm-6 mt-5">
+        <h3 class="text-center text-decoration-underline mb-5 mb-3">Edit colour</h3>
+        <form method="POST">
+            {% csrf_token %}
+            {% for fm in fm %}
+                <div class="form-group mb-3">
+                    <label>{{ fm.label_tag }}</label>
+                    {{ fm }}
+                    <small class="text-danger">{{ fm.errors|striptags }}</small>
+                </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-success">Save changes</button>
+        </form>
+    </div>
+</body>
+</html>

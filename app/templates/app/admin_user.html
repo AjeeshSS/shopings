@@ -1,0 +1,58 @@
+{%extends 'app/base_admin.html'%}
+
+{%block title%}Admin Users{% endblock  %}
+
+{%block search%}
+<form class="d-flex me-auto mb-2 mb-lg-0" action="{% url 'admin_users' %}" method='GET'>
+    <input class="form-control me-2" type="search" name="search" placeholder="Search users" aria-label="Search">
+    <button class="btn btn-outline-success" type="submit">Search</button>
+</form>
+{% endblock search%}
+
+{%block content%}
+<style>
+    .table .table_size {
+        font-size: 17px;
+    }
+</style>
+
+<div class="my-2 fw-bold fs-4 text-center">Manage users</div>
+<!-- Main -->
+<main class="py-6 my-3 bg-surface-secondary mx-5">
+    <div class="container-fluid">
+        <!-- Card stats -->
+    
+        <table class="table table-hover table-responsive text-center" style="border: 1px solid black;">
+            <thead>
+            <tr>
+                <th class="table_size">sl no:</th>
+                <th class="table_size">Name</th>
+                <th class="table_size">Email</th>
+                <th class="table_size">Phone</th>
+                <th class="table_size">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for i in user %}
+            <tr>
+                <td class="table_size">{{forloop.counter}}</td>
+                <td class="table_size">{{i.uname}}</td>
+                <td class="table_size">{{i.uemail}}</td>
+                <td class="table_size">{{i.uphone}}</td>
+                                       
+                <td>
+                     {% if i.uactive %}
+                    <a href="{% url 'userblock' %}?cust_id={{i.id}}" class="btn btn-danger md-sm"><span style="color:white">Block</span></a>
+                    {% else %}
+                    <a href="{% url 'userblock' %}?cust_id={{i.id}}" class="btn btn-success md-sm"><span style="color:white">Unblock</span></a>
+                    {% endif %}
+                </td>
+            </tr>
+            </tbody>
+            {%endfor%}
+        </table>
+
+    
+    </div>
+</main>
+{% endblock  %}

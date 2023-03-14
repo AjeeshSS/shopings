@@ -1,0 +1,36 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}Address{% endblock title %}
+{% block main-content %}
+<div class="container my-5">
+    <div class="row">
+        <h3>Welcome <span class="text-capitalize">{{request.session.user_name}}</span></h3>
+        <div class="col-sm-2 border-end">
+            <ul class="list-unstyled">
+                <li class="d-grid"><a href="{% url 'profile' %}" class="btn btn-primary">Profile</a></li>
+                <li class="d-grid"><a href="{% url 'address' %}" class="btn ">Shipping address</a></li>
+                <li class="d-grid"><a href="{% url 'addaddress' %}" class="btn ">Add new address</a></li>
+            </ul>
+        </div>
+        <div class="col-sm-6 offset-sm-1">
+            <div class="row text-center">
+
+                <div class="col-sm-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3>Profile</h3>
+                            <p>Name: {{add.uname}}</p>
+                            <p>email: {{add.uemail}}</p>
+                            <p>phone: {{add.uphone}}</p>
+                            <a href="{% url 'edit_profile' %}?add_id={{add.id}}" class="col-lg-3 btn"> <i
+                                    class="fa-solid fa-pen-to-square"></i></a>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock main-content %}
