@@ -1,8 +1,6 @@
 from django.contrib import admin
 from .models import *
-import admin_thumbnails
 
-@admin_thumbnails.thumbnail('image')
 
 
 
