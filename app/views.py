@@ -312,26 +312,41 @@ def delete_address(request):
 
 
 def mobile(request, data=None):
-    if 'search' in request.GET:
-        search = request.GET['search']
-        if search == '':  # handle empty search
-            return redirect('mobile')
-        else:
-            mob = Product.objects.filter(brand__icontains=search)
-            if not mob.exists():
+    try:
+        if 'search' in request.GET:
+            search = request.GET['search']
+            if search == '':  # handle empty search
                 return redirect('mobile')
             else:
-                return render(request, 'app/mobile.html', {'mob': mob})
+                mob = Product.objects.filter(brand__icontains=search)
+                if not mob.exists():
+                    return redirect('mobile')
+                else:
+                    return render(request, 'app/mobile.html', {'mob': mob})
+    except Exception as e:
+            # Handle unexpected errors here
+            return HttpResponse('An error occurred: {}'.format(str(e)))
+
     else:
         cat_mob = Category.objects.get(name="mobile")
         if data == None:
             mob = Product.objects.filter(category=cat_mob)
         elif data == 'Redmi' or data == 'Vivo':
-            mob = Product.objects.filter(category=cat_mob).filter(brand=data)
+            try:
+                data = Brand.objects.get(brand_name=data)
+                mob = Product.objects.filter(category=cat_mob, brand=data) 
+            except ObjectDoesNotExist:
+               mob = Product.objects.filter(category=cat_mob)
         elif data == 'below':
-            mob = Product.objects.filter(category=cat_mob).filter(our_price__lt=10000)
+            try:
+                mob = Product.objects.filter(category=cat_mob).filter(our_price__lt=10000)
+            except ObjectDoesNotExist:
+               mob = Product.objects.filter(category=cat_mob)
         elif data == 'above':
-            mob = Product.objects.filter(category=cat_mob).filter(our_price__gt=10000)
+            try:
+                mob = Product.objects.filter(category=cat_mob).filter(our_price__gt=10000)
+            except ObjectDoesNotExist:
+               mob = Product.objects.filter(category=cat_mob)
         return render(request, 'app/mobile.html', {'mob': mob})
 
 
@@ -351,11 +366,21 @@ def lap(request, data=None):
         if data == None:
             lap = Product.objects.filter(category=cat_lap)
         elif data == 'hp' or data == 'Dell':
-            lap = Product.objects.filter(category=cat_lap).filter(brand=data)
+            try:
+                data = Brand.objects.get(brand_name=data)
+                lap = Product.objects.filter(category=cat_lap).filter(brand=data)
+            except ObjectDoesNotExist:
+               lap = Product.objects.filter(category=cat_lap)
         elif data == 'below':
-            lap = Product.objects.filter(category=cat_lap).filter(our_price__lt=30000)
+            try:
+                lap = Product.objects.filter(category=cat_lap).filter(our_price__lt=30000)
+            except ObjectDoesNotExist:
+               lap = Product.objects.filter(category=cat_lap)
         elif data == 'above':
-            lap = Product.objects.filter(category=cat_lap).filter(our_price__gt=30000)
+            try:
+                lap = Product.objects.filter(category=cat_lap).filter(our_price__gt=30000)
+            except ObjectDoesNotExist:
+               lap = Product.objects.filter(category=cat_lap)
         return render(request, 'app/lap.html', {'lap': lap})
 
 
