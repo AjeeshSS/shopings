@@ -133,8 +133,8 @@ class OrderPlaced(models.Model):
     quantity = models.PositiveBigIntegerField(default=1)
     color = models.ForeignKey(Color, on_delete=models.CASCADE)
     ordered_date = models.DateTimeField(auto_now_add=True)
-    payment_method = models.CharField(max_length=50)
-    total_price = models.FloatField()
+    payment_method = models.CharField(max_length=50,default="COD")
+    total_price = models.FloatField(default=0)
     discount = models.FloatField(default=0)
     status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='Pending')
 

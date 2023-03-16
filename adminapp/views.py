@@ -171,9 +171,8 @@ def add_new_product(request):
             fm = Product_form(request.POST, request.FILES)
             form = ProductImage_form(request.POST, request.FILES)
             if fm.is_valid() and form.is_valid():
-                messages.success(request, "added new")
                 prod = fm.save()
-                messages.success(request, "added new")
+                messages.success(request, "added new product")
                 for file in files:
                     MultipleImage.objects.create(product=prod, images=file)
                 return redirect('admin_products')
@@ -578,7 +577,7 @@ def admin_Colour_combination(request):
                         return render(request, 'app/admin_colourcombination.html', {'color': color})
 
             if request.method == "GET":
-                color = ColorCombination.objects.all()
+                color = ColorCombination.objects.order_by('product__title')
                 return render(request, 'app/admin_colourcombination.html', {'color': color})
         except Exception as e:
             # Handle unexpected errors here

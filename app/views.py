@@ -80,8 +80,19 @@ def forgot_password(request):
         return render(request, 'app/forgot_password.html')
     else:
         phone = request.POST.get('phone')
+        try:
+            user = Uuser.objects.get(uphone=phone)
+        except Uuser.DoesNotExist:
+            user = None
+
+        if user == None:
+            messages.warning(request, 'This phone number is not registered')
+            return render(request, 'app/forgot_password.html')
+        
+        
         request.session['phone'] = phone
         otp(request, phone)
+        messages.success(request, 'Thank you for giving registered number')
         return redirect('otp_page')
 
 def otp_page(request):
@@ -720,7 +731,7 @@ def payment_done(request):
     discount = request.GET.get('discount')
     payment_method = request.GET.get('payment_method')
     if payment_method == 'cash on delivery':
-        payment_method = 'cash on delivery'
+        payment_method = 'COD'
     else:
         payment_method = 'pay pal'
     if custid:
