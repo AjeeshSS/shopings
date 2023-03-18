@@ -444,15 +444,15 @@ def buy_now(request):
 
         else:
             prod_id = request.GET['prod_id']  
-        prod = Product.objects.get(id=prod_id)
-        user = request.session['user_name']
-        user = Uuser.objects.get(uname=user)
-        add = Customer.objects.filter(user=user)
-        total_amount = 0.0
-        shipping_amount = 70.0
-        total_amount = prod.our_price + shipping_amount
+            prod = Product.objects.get(id=prod_id)
+            user = request.session['user_name']
+            user = Uuser.objects.get(uname=user)
+            add = Customer.objects.filter(user=user)
+            total_amount = 0.0
+            shipping_amount = 70.0
+            total_amount = prod.our_price + shipping_amount
 
-        return render(request, 'app/buynow.html', {'prod': prod, 'totalamount': total_amount, 'add': add})
+            return render(request, 'app/buynow.html', {'prod': prod, 'totalamount': total_amount, 'add': add})
     else:
         return redirect('user_login')
     
