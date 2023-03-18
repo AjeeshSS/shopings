@@ -329,7 +329,7 @@ def mobile(request, data=None):
             if search == '':  # handle empty search
                 return redirect('mobile')
             else:
-                mob = Product.objects.filter(brand__icontains=search)
+                mob =Product.objects.filter(brand__brand_name__icontains=search)
                 if not mob.exists():
                     return redirect('mobile')
                 else:
@@ -367,7 +367,7 @@ def lap(request, data=None):
         if search == '':  # handle empty search
             return redirect('lap')
         else:
-            lap = Product.objects.filter(brand__icontains=search)
+            lap = Product.objects.filter(brand__brand_name__icontains=search)
             if not lap.exists():
                 return redirect('lap')
             else:
@@ -744,6 +744,7 @@ def payment_done(request):
         messages.success(request, 'ordered succesfully')
         return redirect("orders")
     else:
+        messages.warning(request, 'No address found')
         return redirect("checkout")
     
     
