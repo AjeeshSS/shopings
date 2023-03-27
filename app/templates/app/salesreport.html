@@ -43,6 +43,7 @@
                                 <th><h3>Customer</h3></th>
                                 <th><h3>Amount</h3></th>
                                 <th><h3>Product</h3></th>
+                                <th><h3>Payment</h3></th>
                                 <th><h3>Order status</h3></th>
                             </tr>
                         </thead>
@@ -57,6 +58,7 @@
                                     <th>{{ d.customer.name }}</th>
                                     <th>{{ d.Product.our_price }}</th>
                                     <th>{{ d.Product.title }}</th>
+                                    <th>{{ d.payment_method }}</th>
                                     <th>{{ d.status}}</th>
                                 </tr>
                             {% endfor %}

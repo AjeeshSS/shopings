@@ -685,8 +685,11 @@ def checkout(request):
                 if 'total_amount' in request.session:
                     total_amount = request.session['total_amount'] 
                     del request.session['total_amount']
-                else:     
-                    total_amount = amount + shipping_amount
+                else:
+                    coupon = Coupon.objects.get(id=coupon_id)
+                    discount = coupon.discount
+                    amount = amount - discount
+                    total_amount = amount + shipping_amount     
                 if coupon_id:
                          coupon = Coupon.objects.get(id=coupon_id)
                          discount = coupon.discount
@@ -722,8 +725,7 @@ def apply_coupon(request):
             return redirect(show_cart)
   
 def payment_done(request):
-    if 'coupon_id' in request.session:
-        del request.session['coupon_id']
+    
     user = request.session['user_name']
     user = Uuser.objects.get(uname=user)
     custid = request.GET.get('custid')
@@ -735,6 +737,8 @@ def payment_done(request):
     else:
         payment_method = 'pay pal'
     if custid:
+        if 'coupon_id' in request.session:
+            del request.session['coupon_id']
         customer = Customer.objects.get(id=custid)
         cart = Cart.objects.filter(user=user)
         id = random.randint(1001, 9999)
@@ -804,6 +808,7 @@ def invoice(request):
         'Price' : ordered_product.Product.our_price,
         'quantity': ordered_product.quantity,
         'colour' : ordered_product.color,
+        'payment' : ordered_product.payment_method,
         'Shippingcharge': 70, 
         'amount': ordered_product.quantity * ordered_product.Product.our_price,
         'total_cost': ordered_product.total_price,
@@ -832,6 +837,7 @@ def download(request):
         'Price' : ordered_product.Product.our_price,
         'quantity': ordered_product.quantity,
         'colour' : ordered_product.color,
+        'payment' : ordered_product.payment_method,
         'Shippingcharge': 70, 
         'amount': ordered_product.quantity * ordered_product.Product.our_price,
         'total_cost': ordered_product.total_price,

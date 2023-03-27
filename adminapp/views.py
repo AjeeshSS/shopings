@@ -662,8 +662,8 @@ def sales_report(request):
             
         if generate == 'PDF':
             if start_date and end_date:
-                start_date = datetime.strptime(start_date, '%Y-%m-%d').date()
-                end_date = datetime.strptime(end_date, '%Y-%m-%d').date()
+                start_date = datetime.strptime(start_date, '%Y-%m-%d').replace(hour=0, minute=0, second=0)
+                end_date = datetime.strptime(end_date, '%Y-%m-%d').replace(hour=23, minute=59, second=59)
                 orders = OrderPlaced.objects.filter(ordered_date__range=[start_date, end_date]) 
             if start_date == '' and end_date == '':
                 orders = OrderPlaced.objects.all()
@@ -685,7 +685,6 @@ def sales_report(request):
                 'total_amount_received':total_price,
                 'delivered_orders':total_delivered_products,
             }
-            # return render(request,'app/salesreport.html',data) 
             response = HttpResponse(content_type='application/pdf')
             filename = "Report"+str(now)+ ".pdf"
             content = "filename="+filename

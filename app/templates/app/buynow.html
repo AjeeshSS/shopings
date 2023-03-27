@@ -61,9 +61,11 @@
                   </script> 
 
                   <div class="text-end text-center mt-3">
+                    {% if ad %}
                   <button type="submit" name="payment_method" value="cash on delivery" class="btn btn-info btn-block my-3 fw-bold" style="padding:11px 142px" > Cash on delivery </button> 
         
                   <div id="paypal-button-container"></div>
+                  {% endif %}
                 </div>
               </form>
             </div>
