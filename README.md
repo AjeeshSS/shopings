@@ -6,3 +6,6 @@ To ensure security and user verification, I implemented fast sms OTP verificatio
 The website also includes order tracking functionalities, providing users with real-time updates on their orders. Additionally, responsive design techniques were employed to optimize the website for various devices, ensuring a seamless browsing experience across desktops, tablets, and mobile devices.
 
 Overall, my e-commerce project incorporates a wide range of features, from user authentication and product management to secure payments and hosting on AWS. It provides users with a secure, efficient, and enjoyable online shopping experience.
+
+To increase performance : template inheritance, jquery and nginx.
+3rd party integrations: alerify js, fast sms, paypal,  chart js.
